@@ -4,16 +4,13 @@ const app = express();
 
 app.get("/flights/:id/passengers", async (req, res) => {
     const flightId = req.params.id;
-    const sql = `SELECT passenger.passenger_id, passenger.dni, passenger.name, passenger.age, passenger.country, 
-              boarding_pass.boarding_pass_id, boarding_pass.purchase_id, boarding_pass.seat_type_id, boarding_pass.seat_id, 
-              seat.type, seat.row, seat.column, flight.flight_id, flight.takeoff_date_time, flight.takeoff_airport, 
-              flight.landing_date_time, flight.landing_airport, flight.airplane_id 
-              FROM passenger
-              JOIN boarding_pass ON boarding_pass.passenger_id = passenger.passenger_id
-              JOIN flight ON flight.flight_id = boarding_pass.flight_id
-              LEFT JOIN seat ON seat.seat_id = boarding_pass.seat_id 
-              WHERE flight.flight_id = ?
-              AND boarding_pass.boarding_pass_id IS NOT NULL`;
+    const sql = `SELECT *, boarding_pass.boarding_pass_id, boarding_pass.seat_type_id, boarding_pass.seat_id,
+    flight.takeoff_date_time AS takeoffDateTime, flight.takeoff_airport AS takeoffAirport,flight.landing_date_time AS landingDateTime, 
+    flight.landing_airport AS landingAirport, flight.airplane_id FROM passenger
+    JOIN boarding_pass ON boarding_pass.passenger_id = passenger.passenger_id
+    JOIN flight ON flight.flight_id = boarding_pass.flight_id
+    LEFT JOIN seat ON seat.seat_id = boarding_pass.seat_id 
+    WHERE passenger.passenger_id = ?`;
 
     try {
         const rows = await query(sql, [flightId]);
@@ -49,7 +46,7 @@ app.get("/flights/:id/passengers", async (req, res) => {
                 purchaseId: purchase_id || null,
                 seatTypeId: seat_type_id || null,
                 seatId: seat_id || null,
-                seat: seat_id ? { type, row: seatRow, column } : null,
+                seat: seat_id || null,
             };
 
             return passengerData;
@@ -66,15 +63,9 @@ app.get("/flights/:id/passengers", async (req, res) => {
 
         const data = {
             flightId: flight_id || null,
-            takeoffDateTime:
-                takeoff_date_time instanceof Date
-                    ? takeoff_date_time.getTime() / 1000
-                    : null,
+            takeoffDateTime:takeoff_date_time || null ,
             takeoffAirport: takeoff_airport || null,
-            landingDateTime:
-                landing_date_time instanceof Date
-                    ? landing_date_time.getTime() / 1000
-                    : null,
+            landingDateTime:landing_date_time ||null,
             landingAirport: landing_airport || null,
             airplaneId: airplane_id || null,
             passengers: passengers,

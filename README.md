@@ -32,3 +32,33 @@ Asegúrate de tener instalados los siguientes elementos en tu máquina:
     .GET /flights/:id/passengers: 
     Obtiene la información de los pasajeros de un vuelo específico.
 
+### Ruta de despliege de la API
+    https://prueba-aerolinea-bsale-production.up.railway.app/flights/1/passengers
+
+response:
+```
+ {
+    "data": {
+        "flightId": 3,
+        "takeoffDateTime": 1688766182,
+        "takeoffAirport": "Aeropuerto El Tepual, Chile",
+        "landingDateTime": 1688772962,
+        "landingAirport": "Aeropuerto Internacional Arturo Merino Benitez, Chile",
+        "airplaneId": 2,
+        "passengers": [
+            {
+                "passengerId": 1,
+                "dni": "348373603",
+                "name": "Leticia",
+                "age": 65,
+                "country": "Chile",
+                "boardingPassId": 481,
+                "purchaseId": 20,
+                "seatTypeId": 2,
+                "seatId": null,
+                "seat": null
+            }
+        ]
+    }
+ }
+```

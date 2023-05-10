@@ -1,2 +1,6 @@
-node_modules/        # Directorio de dependencias
-.env/                 # Archivo de variables de entorno
+# Archivos y directorios generados por Node.js
+node_modules/
+package-lock.json
+
+# Archivos de entorno
+.env

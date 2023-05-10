@@ -1,2 +1,2 @@
 node_modules/        # Directorio de dependencias
-.env                 # Archivo de variables de entorno
+.env/                 # Archivo de variables de entorno
